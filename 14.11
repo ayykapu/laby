@@ -1,0 +1,201 @@
+14.11.2022
+using System;
+namespace App
+{
+    public class P1
+    {
+        public int dane;
+        public static P1 operator +(P1 o1, P1 o2)
+        {
+            P1 p = new P1();
+            p.dane = o1.dane + o2.dane;
+            return p;
+        }
+        public static P1 operator +(P1 o1, int o2)
+        {
+            P1 p = new P1();
+            p.dane = o1.dane + o2;
+            return p;
+        }
+        public static P1 operator ++(P1 o1)
+        {
+            o1.dane++;
+            return o1;
+        }
+
+
+        class Program
+        {
+            public static void Main(string[] args)
+            {
+                P1 o1 = new P1(); o1.dane = 10;
+                P1 o2 = new P1(); o2.dane = 15;
+                P1 o3 = o1++ + o2 + 6;
+                Console.WriteLine("wynik " + o3.dane);
+                Console.ReadKey(true);
+                _______________________________
+using System;
+using System.Threading;
+
+namespace p2
+{
+    public class Watek
+    {
+        static readonly object obj = new object();
+        public static void metoda()
+        {
+            int p = 0;
+            lock (obj)
+            {
+
+                while (p < 10)
+                {
+                    Thread.Sleep(500);
+                    p++;
+                    Console.WriteLine("licznik : " + p);
+                   
+
+                }
+            }
+    }
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            Thread w1 = new Thread(new ThreadStart(Watek.metoda));
+            Thread w2 = new Thread(new ThreadStart(Watek.metoda));
+            Thread w3 = new Thread(new ThreadStart(Watek.metoda));
+            w1.Start();
+            Thread.Sleep(2000);
+            w2.Start();
+            Thread.Sleep(2000);
+            w3.Start();
+            }
+        }
+    }
+}
+            }
+        }
+    }
+}
+__________________________
+using System;
+namespace delegacja
+{
+    public class Delegaty
+    {
+        public delegate void MojDelegat(string tekst);
+        public static void Main()
+        {
+            MojDelegat d1 = new MojDelegat(Cl1.Metoda1);
+            MojDelegat d2 = new MojDelegat(Cl1.Metoda2);
+            MojDelegat d3 = new MojDelegat(Cl1.Metoda3);
+            MojDelegat dele = d1 + d2;
+            dele += d3;
+            d1("tekst");
+            Console.WriteLine();
+            dele -= d2;
+            d1("tekst");
+            //d1.Invoke("tekst");
+            //Metoda1(d2);
+            Console.In.ReadLine();
+        }
+        public static void Metoda1(MojDelegat dele)
+        {
+            dele("z parametrem");
+        }
+    }
+    public class Cl1
+    {
+        public static void Metoda1(String tekst)
+        {
+            Console.WriteLine("Metoda1: " +tekst);
+        }
+        public static void Metoda2(String tekst)
+        {
+            Console.WriteLine("Metoda2: " + tekst);
+        }
+        public static void Metoda3(String tekst)
+        {
+            Console.WriteLine("Metoda3: " + tekst);
+        }
+    }
+}
+____________________________________
+using System;
+class Program
+{
+    static bool metoda (int a)
+    {
+        return (a != 10);
+    }
+    static void Main(string[] args)
+    {
+        Predicate<int> d1 = metoda;
+        Console.WriteLine("Wynik " + d1(10));
+        Console.In.ReadLine();
+    }
+}
+____________________________________________
+using System;
+using System.Threading;
+
+namespace p2
+{
+    public class Watek
+    {
+        public static void metoda()
+        {
+            int p = 0;
+            while (true)
+            {
+                Thread.Sleep(500);
+                p++;
+                    Console.WriteLine("licznik : " + p);
+            }
+        }
+    }
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            Thread w1 = new Thread(new ThreadStart(Watek.metoda));
+            w1.Start();
+            Thread.Sleep(3000);
+            new Thread(new ThreadStart(Watek.metoda)).Start();
+            Console.ReadKey(true);
+        }
+    }
+}
+_________________________________________________
+using System;
+using System.Threading;
+
+namespace p2
+{
+    public class Watek
+    {
+        public static void metoda()
+        {
+            int p = 0;
+            while (p < 10)
+            {
+                Thread.Sleep(500);
+                p++;
+                    Console.WriteLine("licznik : " + p);
+            }
+        }
+    }
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            Thread w1 = new Thread(new ThreadStart(Watek.metoda));
+            Thread w2 = new Thread(new ThreadStart(Watek.metoda));
+            w1.Start();
+            w1.Join();
+            w2.Start();
+            Console.ReadKey(true);
+        }
+    }
+}
